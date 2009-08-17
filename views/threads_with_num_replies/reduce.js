@@ -1,7 +1,6 @@
 function(keys, values, rereduce) {
   var output = {};
   output.num_replies = 0;
-  output.last_reply = -1;
 
   if(rereduce) {
     for(idx in values) {
@@ -23,13 +22,6 @@ function(keys, values, rereduce) {
         output.time_created = values[idx].time_created;
       } else if (values[idx].type == 'reply') {
         output.num_replies += 1;
-        if(output.last_reply < 0) {
-          output.last_reply = values[idx].time_created;
-        } else {
-          if(values[idx].time_created > output.last_reply) {
-            output.last_reply = values[idx].time_created;
-          }
-        }
       }
     }
   }
