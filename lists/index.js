@@ -1,6 +1,9 @@
 function(head, req) {
   // !code vendor/couchapp/date.js
   // !code lib/atom.js
+
+  // The URL to access this is at:
+  // http://localhost:5984/hazchat/_design/icanhazthread/_list/index/threads_with_num_replies?format=atom&descending=true&group_level=1
   
   provides("atom", function() {
     var row = getRow();
