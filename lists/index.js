@@ -11,13 +11,14 @@ function(head, req) {
   
   provides("atom", function() {
     var row = getRow();
+    send("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
     
     // generate the feed header
     var feedHeader = Atom.header({
       updated : (row ? new Date(row.value.time_created * 1000) : new Date()),
       title : 'Latest threads from i.canhazthread.com',
       feed_id : makeAbsolute(req, "/"),
-      feed_link : makeAbsolute(req, "?format=atom")
+      feed_link : makeAbsolute(req, "/atom.xml")
     });
     
     send(feedHeader);
@@ -25,11 +26,10 @@ function(head, req) {
     if(row) {
       do {
         var created_time = new Date(row.value.time_created * 1000);
-        var content = "This thread was started at " +  created_time + " by <a href=\"http://twitter.com/" +
-                      row.value.screen_name + ">" + row.value.screen_name + "</a>.";
+        var content = "This thread was started at " +  created_time + " by @" + row.value.screen_name + ".";
                       
         if(row.value.num_replies > 0) {
-          content += " This thread has " + row.value.num_replies + " replies and the last reply was made at " +
+          content += " This thread has " + row.value.num_replies + " " + ((row.value.num_replies == 1) ? "reply" : "replies") + " and the last reply was made at " +
                       new Date(row.value.last_reply * 1000);
         } else {
           content += " No one has replied to this thread yet.";
