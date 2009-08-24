@@ -27,7 +27,7 @@ function(head, req) {
         var created_time = new Date(row.value.time_created * 1000);
         var content = "This thread was started at " +  created_time + " by <a href=\"http://twitter.com/" +
                       row.value.screen_name + ">" + row.value.screen_name + "</a>.";
-
+                      
         if(row.value.num_replies > 0) {
           content += " This thread has " + row.value.num_replies + " replies and the last reply was made at " +
                       new Date(row.value.last_reply * 1000);
@@ -36,7 +36,7 @@ function(head, req) {
         }
 
         var feedEntry = Atom.entry({
-          entry_id : makeAbsolute(req, "/t/" + row.value.time_created + "-" + row.value.screen_name),
+          entry_id : makeAbsolute(req, "/t/" + row.key),
           title : row.value.text,
           content : content,
           updated : created_time.rfc3339(),
